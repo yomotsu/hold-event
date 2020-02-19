@@ -1,0 +1,61 @@
+{
+  "name": "hold-event",
+  "version": "0.0.0",
+  "author": "Yomotsu",
+  "license": "MIT",
+  "main": "dist/hold-event.js",
+  "jsnext:main": "dist/hold-event.module.js",
+  "module": "dist/hold-event.module.js",
+  "types": "dist/index.d.ts",
+  "repository": "yomotsu/hold-event",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-config-mdcs": "^4.2.3",
+    "rollup": "^1.31.1",
+    "rollup-plugin-typescript2": "^0.26.0",
+    "terser": "^4.6.3",
+    "typescript": "3.7.5"
+  },
+  "scripts": {
+    "dev": "rollup --config --watch",
+    "build": "rollup --config && terser dist/hold-event.js -o dist/hold-event.min.js --comments '/^!/'",
+    "lint": "eslint src --ext ts"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11"
+  ],
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "extends": "mdcs",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": 1,
+      "indent": 0,
+      "@typescript-eslint/indent": [
+        "error",
+        "tab",
+        {
+          "SwitchCase": 1,
+          "flatTernaryExpressions": true
+        }
+      ],
+      "no-multi-spaces": [
+        0
+      ],
+      "key-spacing": [
+        0
+      ]
+    }
+  },
+  "keywords": [
+    "keyboard",
+    "event"
+  ]
+}

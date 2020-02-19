@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>=^.^=</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+hold arrow left key, check the browser console.
+
+<script src="../dist/hold-event.js"></script>
+<script>
+const KEYCODE = {
+	ARROW_LEFT  = 37,
+	ARROW_UP    = 38,
+	ARROW_RIGHT = 39,
+	ARROW_DOWN  = 40,
+};
+
+const leftKey = new holdEvent.KeyboardKeyHold( KEYCODE.ARROW_LEFT );
+
+leftKey.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_START, ( event ) => console.log( event ) );
+leftKey.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLDING, ( event ) => console.log( event ) );
+leftKey.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_END, ( event ) => console.log( event ) );
+
+</script>
+
+</body>
+</html>

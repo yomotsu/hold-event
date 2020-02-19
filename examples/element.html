@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>=^.^=</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<button type="button" id="button">hold me, check the browser console.</button>
+
+<script src="../dist/hold-event.js"></script>
+<script>
+
+const $button = document.getElementById( 'button' )
+const buttonHold = new holdEvent.ElementHold( $button );
+
+buttonHold.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_START, ( event ) => console.log( event ) );
+buttonHold.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLDING, ( event ) => console.log( event ) );
+buttonHold.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_END, ( event ) => console.log( event ) );
+
+</script>
+
+</body>
+</html>
