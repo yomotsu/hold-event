@@ -4,7 +4,7 @@ import pkg from './package.json';
 const license = `/*!
  * ${ pkg.name }
  * https://github.com/${ pkg.repository }
- * (c) 2017 @yomotsu
+ * (c) 2020 @yomotsu
  * Released under the MIT License.
  */`;
 
