@@ -11,6 +11,7 @@ export class KeyboardKeyHold extends Hold {
 
 		const onKeydown = ( event: KeyboardEvent ) => {
 
+			if ( isInputEvent( event ) ) return;
 			if ( event.keyCode !== keyCode ) return;
 
 			this._holdStart( event );
@@ -30,5 +31,18 @@ export class KeyboardKeyHold extends Hold {
 		window.addEventListener( 'blur', this._holdEnd );
 
 	}
+
+}
+
+function isInputEvent( event: KeyboardEvent ) {
+
+	const target = event.target as HTMLElement;
+
+	return (
+		target.tagName === 'INPUT' ||
+		target.tagName === 'SELECT' ||
+		target.tagName === 'TEXTAREA' ||
+		target.isContentEditable
+	);
 
 }
