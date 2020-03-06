@@ -6,5 +6,6 @@ export interface DispatcherEvent {
 export declare class EventDispatcher {
     private _listeners;
     addEventListener(type: string, listener: Listener): void;
+    removeEventListener(type: string, listener: Listener): void;
     dispatchEvent(event: DispatcherEvent): void;
 }

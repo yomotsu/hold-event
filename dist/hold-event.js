@@ -1,7 +1,7 @@
 /*!
  * hold-event
  * https://github.com/yomotsu/hold-event
- * (c) 2017 @yomotsu
+ * (c) 2020 @yomotsu
  * Released under the MIT License.
  */
 (function (global, factory) {
@@ -55,6 +55,15 @@
 	            listeners[type] = [];
 	        if (listeners[type].indexOf(listener) === -1)
 	            listeners[type].push(listener);
+	    };
+	    EventDispatcher.prototype.removeEventListener = function (type, listener) {
+	        var listeners = this._listeners;
+	        var listenerArray = listeners[type];
+	        if (listenerArray !== undefined) {
+	            var index = listenerArray.indexOf(listener);
+	            if (index !== -1)
+	                listenerArray.splice(index, 1);
+	        }
 	    };
 	    EventDispatcher.prototype.dispatchEvent = function (event) {
 	        var listeners = this._listeners;
@@ -172,6 +181,8 @@
 	        _this._holdStart = _this._holdStart.bind(_this);
 	        _this._holdEnd = _this._holdEnd.bind(_this);
 	        var onKeydown = function (event) {
+	            if (isInputEvent(event))
+	                return;
 	            if (event.keyCode !== keyCode)
 	                return;
 	            _this._holdStart(event);
@@ -188,6 +199,13 @@
 	    }
 	    return KeyboardKeyHold;
 	}(Hold));
+	function isInputEvent(event) {
+	    var target = event.target;
+	    return (target.tagName === 'INPUT' ||
+	        target.tagName === 'SELECT' ||
+	        target.tagName === 'TEXTAREA' ||
+	        target.isContentEditable);
+	}
 
 	exports.ElementHold = ElementHold;
 	exports.KeyboardKeyHold = KeyboardKeyHold;
