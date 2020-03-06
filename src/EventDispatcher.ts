@@ -27,20 +27,20 @@ export class EventDispatcher {
 
 	// }
 
-	// removeEventListener( type: string, listener: Listener ): void {
+	removeEventListener( type: string, listener: Listener ): void {
 
-	// 	const listeners = this._listeners;
-	// 	const listenerArray = listeners[ type ];
+		const listeners = this._listeners;
+		const listenerArray = listeners[ type ];
 
-	// 	if ( listenerArray !== undefined ) {
+		if ( listenerArray !== undefined ) {
 
-	// 		const index = listenerArray.indexOf( listener );
+			const index = listenerArray.indexOf( listener );
 
-	// 		if ( index !== - 1 ) listenerArray.splice( index, 1 );
+			if ( index !== - 1 ) listenerArray.splice( index, 1 );
 
-	// 	}
+		}
 
-	// }
+	}
 
 	// removeAllEventListeners( type?: string ): void {
 
