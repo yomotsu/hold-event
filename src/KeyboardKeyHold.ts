@@ -2,7 +2,7 @@ import { Hold } from './Hold';
 
 export class KeyboardKeyHold extends Hold {
 
-	constructor( keyCode: number, holdIntervalDelay: number = 100 ) {
+	constructor( keyCode: number, holdIntervalDelay?: number ) {
 
 		super( holdIntervalDelay );
 

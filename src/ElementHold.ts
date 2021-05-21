@@ -2,7 +2,7 @@ import { Hold } from './Hold';
 
 export class ElementHold extends Hold {
 
-	constructor( element: HTMLElement, holdIntervalDelay: number = 100 ) {
+	constructor( element: HTMLElement, holdIntervalDelay?: number ) {
 
 		super( holdIntervalDelay );
 

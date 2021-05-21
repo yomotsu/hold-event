@@ -3,7 +3,7 @@ import { HOLD_EVENT_TYPE } from './constants';
 
 export class Hold extends EventDispatcher {
 
-	holdIntervalDelay = 100;
+	holdIntervalDelay?: number;
 	protected _enabled: boolean = true;
 	protected _holding: boolean = false;
 	protected _intervalId: number = - 1;
@@ -11,7 +11,7 @@ export class Hold extends EventDispatcher {
 	protected _elapsedTime: number = 0;
 	protected _lastTime: number = 0;
 
-	constructor( holdIntervalDelay: number = 100 ) {
+	constructor( holdIntervalDelay?: number ) {
 
 		super();
 		this.holdIntervalDelay = holdIntervalDelay;
@@ -51,7 +51,12 @@ export class Hold extends EventDispatcher {
 		} );
 
 		this._holding = true;
-		this._intervalId = window.setInterval( () => {
+
+		const cb = () => {
+
+			this._intervalId = !! this.holdIntervalDelay ?
+				window.setTimeout( cb, this.holdIntervalDelay ) :
+				window.requestAnimationFrame( cb );
 
 			const now = performance.now();
 			this._deltaTime = now - this._lastTime;
@@ -64,7 +69,11 @@ export class Hold extends EventDispatcher {
 				elapsedTime: this._elapsedTime,
 			} );
 
-		}, this.holdIntervalDelay );
+		};
+
+		this._intervalId = !! this.holdIntervalDelay ?
+			window.setTimeout( cb, this.holdIntervalDelay ) :
+			window.requestAnimationFrame( cb );
 
 	}
 
@@ -85,7 +94,8 @@ export class Hold extends EventDispatcher {
 			originalEvent: event,
 		} );
 
-		window.clearInterval( this._intervalId );
+		window.clearTimeout( this._intervalId );
+		window.cancelAnimationFrame( this._intervalId );
 		this._holding = false;
 
 	};
