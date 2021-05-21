@@ -1,6 +1,6 @@
 import { EventDispatcher } from './EventDispatcher';
 export declare class Hold extends EventDispatcher {
-    holdIntervalDelay: number;
+    holdIntervalDelay?: number;
     protected _enabled: boolean;
     protected _holding: boolean;
     protected _intervalId: number;
