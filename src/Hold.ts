@@ -67,6 +67,7 @@ export class Hold extends EventDispatcher {
 				type: HOLD_EVENT_TYPE.HOLDING,
 				deltaTime: this._deltaTime,
 				elapsedTime: this._elapsedTime,
+				originalEvent: event
 			} );
 
 		};
