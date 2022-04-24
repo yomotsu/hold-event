@@ -11,197 +11,152 @@ var HOLD_EVENT_TYPE;
     HOLD_EVENT_TYPE["HOLDING"] = "holding";
 })(HOLD_EVENT_TYPE || (HOLD_EVENT_TYPE = {}));
 
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/* global Reflect, Promise */
-
-var extendStatics = function(d, b) {
-    extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-    return extendStatics(d, b);
-};
-
-function __extends(d, b) {
-    if (typeof b !== "function" && b !== null)
-        throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-    extendStatics(d, b);
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-}
-
-var EventDispatcher = (function () {
-    function EventDispatcher() {
+class EventDispatcher {
+    constructor() {
         this._listeners = {};
     }
-    EventDispatcher.prototype.addEventListener = function (type, listener) {
-        var listeners = this._listeners;
+    addEventListener(type, listener) {
+        const listeners = this._listeners;
         if (listeners[type] === undefined)
             listeners[type] = [];
         if (listeners[type].indexOf(listener) === -1)
             listeners[type].push(listener);
-    };
-    EventDispatcher.prototype.removeEventListener = function (type, listener) {
-        var listeners = this._listeners;
-        var listenerArray = listeners[type];
+    }
+    removeEventListener(type, listener) {
+        const listeners = this._listeners;
+        const listenerArray = listeners[type];
         if (listenerArray !== undefined) {
-            var index = listenerArray.indexOf(listener);
+            const index = listenerArray.indexOf(listener);
             if (index !== -1)
                 listenerArray.splice(index, 1);
         }
-    };
-    EventDispatcher.prototype.dispatchEvent = function (event) {
-        var listeners = this._listeners;
-        var listenerArray = listeners[event.type];
+    }
+    dispatchEvent(event) {
+        const listeners = this._listeners;
+        const listenerArray = listeners[event.type];
         if (listenerArray !== undefined) {
             event.target = this;
-            var array = listenerArray.slice(0);
-            for (var i = 0, l = array.length; i < l; i++) {
+            const array = listenerArray.slice(0);
+            for (let i = 0, l = array.length; i < l; i++) {
                 array[i].call(this, event);
             }
         }
-    };
-    return EventDispatcher;
-}());
+    }
+}
 
-var Hold = (function (_super) {
-    __extends(Hold, _super);
-    function Hold(holdIntervalDelay) {
-        var _this = _super.call(this) || this;
-        _this._enabled = true;
-        _this._holding = false;
-        _this._intervalId = -1;
-        _this._deltaTime = 0;
-        _this._elapsedTime = 0;
-        _this._lastTime = 0;
-        _this._holdStart = function (event) {
-            if (!_this._enabled)
+class Hold extends EventDispatcher {
+    constructor(holdIntervalDelay) {
+        super();
+        this._enabled = true;
+        this._holding = false;
+        this._intervalId = -1;
+        this._deltaTime = 0;
+        this._elapsedTime = 0;
+        this._lastTime = 0;
+        this._holdStart = (event) => {
+            if (!this._enabled)
                 return;
-            if (_this._holding)
+            if (this._holding)
                 return;
-            _this._deltaTime = 0;
-            _this._elapsedTime = 0;
-            _this._lastTime = performance.now();
-            _this.dispatchEvent({
+            this._deltaTime = 0;
+            this._elapsedTime = 0;
+            this._lastTime = performance.now();
+            this.dispatchEvent({
                 type: HOLD_EVENT_TYPE.HOLD_START,
-                deltaTime: _this._deltaTime,
-                elapsedTime: _this._elapsedTime,
+                deltaTime: this._deltaTime,
+                elapsedTime: this._elapsedTime,
                 originalEvent: event,
             });
-            _this._holding = true;
-            var cb = function () {
-                _this._intervalId = !!_this.holdIntervalDelay ?
-                    window.setTimeout(cb, _this.holdIntervalDelay) :
+            this._holding = true;
+            const cb = () => {
+                this._intervalId = !!this.holdIntervalDelay ?
+                    window.setTimeout(cb, this.holdIntervalDelay) :
                     window.requestAnimationFrame(cb);
-                var now = performance.now();
-                _this._deltaTime = now - _this._lastTime;
-                _this._elapsedTime += _this._deltaTime;
-                _this._lastTime = performance.now();
-                _this.dispatchEvent({
+                const now = performance.now();
+                this._deltaTime = now - this._lastTime;
+                this._elapsedTime += this._deltaTime;
+                this._lastTime = performance.now();
+                this.dispatchEvent({
                     type: HOLD_EVENT_TYPE.HOLDING,
-                    deltaTime: _this._deltaTime,
-                    elapsedTime: _this._elapsedTime,
+                    deltaTime: this._deltaTime,
+                    elapsedTime: this._elapsedTime,
                     originalEvent: event
                 });
             };
-            _this._intervalId = !!_this.holdIntervalDelay ?
-                window.setTimeout(cb, _this.holdIntervalDelay) :
+            this._intervalId = !!this.holdIntervalDelay ?
+                window.setTimeout(cb, this.holdIntervalDelay) :
                 window.requestAnimationFrame(cb);
         };
-        _this._holdEnd = function (event) {
-            if (!_this._enabled)
+        this._holdEnd = (event) => {
+            if (!this._enabled)
                 return;
-            if (!_this._holding)
+            if (!this._holding)
                 return;
-            var now = performance.now();
-            _this._deltaTime = now - _this._lastTime;
-            _this._elapsedTime += _this._deltaTime;
-            _this._lastTime = performance.now();
-            _this.dispatchEvent({
+            const now = performance.now();
+            this._deltaTime = now - this._lastTime;
+            this._elapsedTime += this._deltaTime;
+            this._lastTime = performance.now();
+            this.dispatchEvent({
                 type: HOLD_EVENT_TYPE.HOLD_END,
-                deltaTime: _this._deltaTime,
-                elapsedTime: _this._elapsedTime,
+                deltaTime: this._deltaTime,
+                elapsedTime: this._elapsedTime,
                 originalEvent: event,
             });
-            window.clearTimeout(_this._intervalId);
-            window.cancelAnimationFrame(_this._intervalId);
-            _this._holding = false;
+            window.clearTimeout(this._intervalId);
+            window.cancelAnimationFrame(this._intervalId);
+            this._holding = false;
         };
-        _this.holdIntervalDelay = holdIntervalDelay;
-        return _this;
+        this.holdIntervalDelay = holdIntervalDelay;
     }
-    Object.defineProperty(Hold.prototype, "enabled", {
-        get: function () {
-            return this._enabled;
-        },
-        set: function (enabled) {
-            if (this._enabled === enabled)
-                return;
-            this._enabled = enabled;
-            if (!this._enabled)
-                this._holdEnd();
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return Hold;
-}(EventDispatcher));
+    get enabled() {
+        return this._enabled;
+    }
+    set enabled(enabled) {
+        if (this._enabled === enabled)
+            return;
+        this._enabled = enabled;
+        if (!this._enabled)
+            this._holdEnd();
+    }
+}
 
-var ElementHold = (function (_super) {
-    __extends(ElementHold, _super);
-    function ElementHold(element, holdIntervalDelay) {
-        var _this = _super.call(this, holdIntervalDelay) || this;
-        _this._holdStart = _this._holdStart.bind(_this);
-        _this._holdEnd = _this._holdEnd.bind(_this);
-        var onPointerDown = _this._holdStart;
-        var onPointerUp = _this._holdEnd;
+class ElementHold extends Hold {
+    constructor(element, holdIntervalDelay) {
+        super(holdIntervalDelay);
+        this._holdStart = this._holdStart.bind(this);
+        this._holdEnd = this._holdEnd.bind(this);
+        const onPointerDown = this._holdStart;
+        const onPointerUp = this._holdEnd;
         element.addEventListener('mousedown', onPointerDown);
         document.addEventListener('mouseup', onPointerUp);
-        window.addEventListener('blur', _this._holdEnd);
-        return _this;
+        window.addEventListener('blur', this._holdEnd);
     }
-    return ElementHold;
-}(Hold));
+}
 
-var KeyboardKeyHold = (function (_super) {
-    __extends(KeyboardKeyHold, _super);
-    function KeyboardKeyHold(keyCode, holdIntervalDelay) {
-        var _this = _super.call(this, holdIntervalDelay) || this;
-        _this._holdStart = _this._holdStart.bind(_this);
-        _this._holdEnd = _this._holdEnd.bind(_this);
-        var onKeydown = function (event) {
+class KeyboardKeyHold extends Hold {
+    constructor(keyCode, holdIntervalDelay) {
+        super(holdIntervalDelay);
+        this._holdStart = this._holdStart.bind(this);
+        this._holdEnd = this._holdEnd.bind(this);
+        const onKeydown = (event) => {
             if (isInputEvent(event))
                 return;
             if (event.keyCode !== keyCode)
                 return;
-            _this._holdStart(event);
+            this._holdStart(event);
         };
-        var onKeyup = function (event) {
+        const onKeyup = (event) => {
             if (event.keyCode !== keyCode)
                 return;
-            _this._holdEnd(event);
+            this._holdEnd(event);
         };
         document.addEventListener('keydown', onKeydown);
         document.addEventListener('keyup', onKeyup);
-        window.addEventListener('blur', _this._holdEnd);
-        return _this;
+        window.addEventListener('blur', this._holdEnd);
     }
-    return KeyboardKeyHold;
-}(Hold));
+}
 function isInputEvent(event) {
-    var target = event.target;
+    const target = event.target;
     return (target.tagName === 'INPUT' ||
         target.tagName === 'SELECT' ||
         target.tagName === 'TEXTAREA' ||
