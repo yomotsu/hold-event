@@ -119,6 +119,7 @@
 	                    type: exports.HOLD_EVENT_TYPE.HOLDING,
 	                    deltaTime: _this._deltaTime,
 	                    elapsedTime: _this._elapsedTime,
+	                    originalEvent: event
 	                });
 	            };
 	            _this._intervalId = !!_this.holdIntervalDelay ?
