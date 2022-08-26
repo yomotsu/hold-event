@@ -10,18 +10,13 @@ hold arrow left key, check the browser console.
 
 <script src="../dist/hold-event.js"></script>
 <script>
-const KEYCODE = {
-	ARROW_LEFT : 37,
-	ARROW_UP   : 38,
-	ARROW_RIGHT: 39,
-	ARROW_DOWN : 40,
-};
 
-const leftKey = new holdEvent.KeyboardKeyHold( KEYCODE.ARROW_LEFT );
+// all keycodes are listed at: https://www.w3.org/TR/uievents-code/#keyboard-key-codes
+const keyLeft = new holdEvent.KeyboardKeyHold( 'ArrowLeft' );
 
-leftKey.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_START, ( event ) => console.log( event ) );
-leftKey.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLDING, ( event ) => console.log( event ) );
-leftKey.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_END, ( event ) => console.log( event ) );
+keyLeft.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_START, ( event ) => console.log( event ) );
+keyLeft.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLDING, ( event ) => console.log( event ) );
+keyLeft.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_END, ( event ) => console.log( event ) );
 
 </script>
 

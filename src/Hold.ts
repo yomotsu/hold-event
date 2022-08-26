@@ -18,7 +18,7 @@ export class Hold extends EventDispatcher {
 
 	}
 
-	get enabled() {
+	get enabled(): boolean {
 
 		return this._enabled;
 
@@ -31,6 +31,12 @@ export class Hold extends EventDispatcher {
 		this._enabled = enabled;
 
 		if ( ! this._enabled ) this._holdEnd();
+
+	}
+
+	get holding(): boolean {
+
+		return this._holding;
 
 	}
 

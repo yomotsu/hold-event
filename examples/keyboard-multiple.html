@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>=^.^=</title>
+</head>
+<body>
+hold W key and Left Shift key, check the browser console.
+
+<script src="../dist/hold-event.js"></script>
+<script>
+
+// all keycodes are listed at: https://www.w3.org/TR/uievents-code/#keyboard-key-codes
+const keyW = new holdEvent.KeyboardKeyHold( 'KeyW' );
+const keyShiftLeft = new holdEvent.KeyboardKeyHold( 'ShiftLeft' );
+
+keyW.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_START, ( event ) => keyShiftLeft.holding && console.log( event ) );
+keyW.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLDING, ( event ) => keyShiftLeft.holding && console.log( event ) );
+keyW.addEventListener( holdEvent.HOLD_EVENT_TYPE.HOLD_END, ( event ) => keyShiftLeft.holding && console.log( event ) );
+
+</script>
+
+</body>
+</html>
