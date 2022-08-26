@@ -118,6 +118,9 @@ class Hold extends EventDispatcher {
         if (!this._enabled)
             this._holdEnd();
     }
+    get holding() {
+        return this._holding;
+    }
 }
 
 class ElementHold extends Hold {
@@ -134,19 +137,23 @@ class ElementHold extends Hold {
 }
 
 class KeyboardKeyHold extends Hold {
-    constructor(keyCode, holdIntervalDelay) {
+    constructor(code, holdIntervalDelay) {
+        if (typeof code !== 'string') {
+            console.error('KeyboardKeyHold: the first argument has to be a KeyboardEvent.code string.');
+            return;
+        }
         super(holdIntervalDelay);
         this._holdStart = this._holdStart.bind(this);
         this._holdEnd = this._holdEnd.bind(this);
         const onKeydown = (event) => {
             if (isInputEvent(event))
                 return;
-            if (event.keyCode !== keyCode)
+            if (event.code !== code)
                 return;
             this._holdStart(event);
         };
         const onKeyup = (event) => {
-            if (event.keyCode !== keyCode)
+            if (event.code !== code)
                 return;
             this._holdEnd(event);
         };

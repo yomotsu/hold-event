@@ -10,6 +10,7 @@ export declare class Hold extends EventDispatcher {
     constructor(holdIntervalDelay?: number);
     get enabled(): boolean;
     set enabled(enabled: boolean);
-    protected _holdStart: (event?: Event | undefined) => void;
-    protected _holdEnd: (event?: Event | undefined) => void;
+    get holding(): boolean;
+    protected _holdStart: (event?: Event) => void;
+    protected _holdEnd: (event?: Event) => void;
 }
