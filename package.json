@@ -9,14 +9,14 @@
   "types": "dist/index.d.ts",
   "repository": "yomotsu/hold-event",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "@typescript-eslint/parser": "^5.20.0",
-    "eslint": "^8.14.0",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
+    "eslint": "^8.22.0",
     "eslint-config-mdcs": "^5.0.0",
-    "rollup": "^2.70.2",
-    "rollup-plugin-typescript2": "^0.31.2",
-    "terser": "^5.12.1",
-    "typescript": "4.6.3"
+    "rollup": "^2.78.1",
+    "rollup-plugin-typescript2": "^0.33.0",
+    "terser": "^5.15.0",
+    "typescript": "4.8.2"
   },
   "scripts": {
     "dev": "rollup --config --watch",
