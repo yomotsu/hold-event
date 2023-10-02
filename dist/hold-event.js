@@ -179,6 +179,4 @@
 	exports.ElementHold = ElementHold;
 	exports.KeyboardKeyHold = KeyboardKeyHold;
 
-	Object.defineProperty(exports, '__esModule', { value: true });
-
 }));
