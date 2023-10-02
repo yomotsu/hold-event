@@ -2,19 +2,45 @@ import { Hold } from './Hold';
 
 export class ElementHold extends Hold {
 
+	private _activePointerIds: number[] = [];
+
 	constructor( element: HTMLElement, holdIntervalDelay?: number ) {
 
 		super( holdIntervalDelay );
 
-		this._holdStart = this._holdStart.bind( this );
-		this._holdEnd = this._holdEnd.bind( this );
+		const holdStart = ( event?: Event ) => {
 
-		const onPointerDown = this._holdStart;
-		const onPointerUp = this._holdEnd;
+			this._holdStart( event );
 
-		element.addEventListener( 'mousedown', onPointerDown );
-		document.addEventListener( 'mouseup', onPointerUp );
-		window.addEventListener( 'blur', this._holdEnd );
+		};
+
+		const holdEnd = ( event?: Event ) => {
+
+			this._activePointerIds.length = 0;
+			this._holdEnd( event );
+
+		};
+
+		const onPointerDown = ( event: PointerEvent ) => {
+
+			this._activePointerIds.push( event.pointerId );
+			holdStart( event );
+
+		};
+
+		const onPointerUp = ( event: PointerEvent ) => {
+
+			const pointerIndex = this._activePointerIds.indexOf( event.pointerId );
+			if ( pointerIndex === - 1 ) return;
+
+			this._activePointerIds.splice( pointerIndex, 1 );
+			if ( this._activePointerIds.length === 0 ) holdEnd( event );
+
+		};
+
+		element.addEventListener( 'pointerdown', onPointerDown );
+		document.addEventListener( 'pointerup', onPointerUp );
+		window.addEventListener( 'blur', holdEnd );
 
 	}
 

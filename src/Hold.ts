@@ -82,7 +82,7 @@ export class Hold extends EventDispatcher {
 			window.setTimeout( cb, this.holdIntervalDelay ) :
 			window.requestAnimationFrame( cb );
 
-	}
+	};
 
 	protected _holdEnd = ( event?: Event ) => {
 
