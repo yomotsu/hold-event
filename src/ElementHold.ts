@@ -39,7 +39,6 @@ export class ElementHold extends Hold {
 		};
 
 		element.addEventListener( 'pointerdown', onPointerDown );
-		element.addEventListener( 'pointerleave', onPointerUp );
 		document.addEventListener( 'pointerup', onPointerUp );
 		window.addEventListener( 'blur', holdEnd );
 
